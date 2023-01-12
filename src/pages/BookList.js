@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
+import { toast, ToastContainer } from 'react-toastify'
 import Search from '../components/Search'
 import BookService from '../services/bookService'
 export default function BookList() {
@@ -10,6 +11,21 @@ export default function BookList() {
     useEffect(() => {
         let bookService = new BookService()
         bookService.getBooks().then(result => setBooks(result.data.data))
+            .catch(err => {
+                if (err) {
+                    toast.error('API ERROR!', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                }
+
+            })
         bookService.getBooks().then(result => setFilteredBooks(result.data.data))
     }, [])
 
@@ -63,19 +79,22 @@ export default function BookList() {
     ]
 
     return (
-        <DataTable title="Book List"
-            fixedHeader
-            columns={columns}
-            data={filteredBooks}
-            fixedHeaderScrollHeight="400px"
-            selectableRowsHighlight
-            highlightOnHover
-            pagination
-            subHeader
-            subHeaderComponent={
-                <Search search={search} setSearch={setSearch} />
-            }
-        />
+        <>
+            <ToastContainer />
+            <DataTable title="Book List"
+                fixedHeader
+                columns={columns}
+                data={filteredBooks}
+                fixedHeaderScrollHeight="400px"
+                selectableRowsHighlight
+                highlightOnHover
+                pagination
+                subHeader
+                subHeaderComponent={
+                    <Search search={search} setSearch={setSearch} />
+                }
+            />
+        </>
 
     )
 }
