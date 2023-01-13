@@ -10,8 +10,8 @@ export default class Navi extends Component {
 
         return (
             <Segment inverted>
-                <Menu inverted pointing secondary>
-                    <Image src="book-stack.png" size='mini' />
+                <Menu inverted pointing>
+                    <Image src="book-stack.png" size='mini' style={{marginRight:'5px'}}/>
                     <Menu.Item
                         as={NavLink} to="/books"
                         name='bookList'
